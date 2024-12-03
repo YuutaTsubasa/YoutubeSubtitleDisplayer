@@ -9,35 +9,26 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: windows-latest
+  release:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [windows-latest]
 
     steps:
       # 檢出代碼
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Check out code
+        uses: actions/checkout@v1
 
-      # 設置 Node.js 環境
+      # 安裝 Node.js
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v1
         with:
           node-version: 16
 
-      # 安裝依賴
-      - name: Install dependencies
-        run: npm install
-
-      # 構建應用
-      - name: Build Electron App
-        run: npm run build
-
-      # 打包應用
-      - name: Package Electron App
-        run: npx electron-builder --win --publish never
-
-      # 上傳構建產物作為 Artifact
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+      # 構建和發布應用
+      - name: Build and Release Electron App
+        uses: samuelmeuli/action-electron-builder@v1
         with:
-          name: ElectronSubtitleTool
-          path: dist/
+          github_token: ${{ secrets.GITHUB_TOKEN }}
