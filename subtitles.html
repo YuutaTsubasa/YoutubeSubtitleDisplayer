@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Subtitles</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Noto Serif JP', serif; /* 使用 Noto Serif JP */
+      text-align: center;
+      background-color: rgba(0, 255, 0, 1); /* 綠色背景 */
+      /* 如果需要透明背景，將 background-color 設為 transparent */
+      display: flex;
+      align-items: flex-end; /* 垂直方向對齊底部 */
+      justify-content: center; /* 水平居中 */
+      height: 100vh; /* 設置全頁高度 */
+    }
+    #subtitle {
+      font-size: 150px; /* 調整字型大小 */
+      font-weight: 700; /* 粗體 */
+      color: white; /* 字體顏色 */
+      text-shadow:
+        -1px -1px 0 #000, /* 左上 */
+         1px -1px 0 #000, /* 右上 */
+        -1px  1px 0 #000, /* 左下 */
+         1px  1px 0 #000, /* 右下 */
+        0px  0px 4px rgba(0, 0, 0, 0.5),
+        2px 2px 4px rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      max-width: 80%; /* 限制字幕寬度 */
+      word-wrap: break-word; /* 避免字幕溢出 */
+    }
+  </style>
+</head>
+<body>
+  <div id="subtitle"></div>
+  <script>
+    const { ipcRenderer } = window.electron;
+    let subtitles = [];
+    ipcRenderer.on('load-subtitles', loadedSubtitles => {
+      subtitles = loadedSubtitles;
+    });
+
+    ipcRenderer.on('update-time', currentTime => {
+      const currentSubtitle = subtitles.find(
+        (s) => currentTime >= s.start && currentTime <= s.end
+      );
+      document.getElementById('subtitle').innerText = currentSubtitle
+        ? currentSubtitle.text
+        : '';
+    });
+  </script>
+</body>
+</html>

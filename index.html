@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>YouTube Subtitle Tool</title>
+</head>
+<body>
+  <h1>YouTube Subtitle Tool</h1>
+  <form id="start-form">
+    <input type="text" id="youtube-url" placeholder="Enter YouTube URL" required />
+    <button type="button" id="select-file">Select Subtitle File</button>
+    <button type="submit">Start</button>
+  </form>
+  <script>
+    const { ipcRenderer } = window.electron;
+    document.getElementById('select-file').addEventListener('click', async () => {
+      const success = await ipcRenderer.invoke('select-subtitle-file');
+      if (success) alert('Subtitle file loaded successfully!');
+    });
+
+    document.getElementById('start-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const youtubeUrl = document.getElementById('youtube-url').value;
+      ipcRenderer.send('start-play', youtubeUrl);
+    });
+  </script>
+</body>
+</html>
