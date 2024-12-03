@@ -1,0 +1,43 @@
+name: Build and Package Electron App
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      # 檢出代碼
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 設置 Node.js 環境
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      # 安裝依賴
+      - name: Install dependencies
+        run: npm install
+
+      # 構建應用
+      - name: Build Electron App
+        run: npm run build
+
+      # 打包應用
+      - name: Package Electron App
+        run: npx electron-builder --win --publish never
+
+      # 上傳構建產物作為 Artifact
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ElectronSubtitleTool
+          path: dist/
