@@ -23,6 +23,18 @@
 
 ---
 
+## 製作過程直播連結
+
+- [https://yutaii.run/v/705](https://yutaii.run/v/705)
+
+---
+
+## 下載點
+
+- [https://github.com/YuutaTsubasa/YoutubeSubtitleDisplayer/releases](https://github.com/YuutaTsubasa/YoutubeSubtitleDisplayer/releases)
+
+---
+
 ## 安裝與運行
 
 ### 1. 環境需求
