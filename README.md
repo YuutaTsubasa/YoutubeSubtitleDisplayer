@@ -1,5 +1,5 @@
 
-# Electron 字幕同步工具
+# Youtube 字幕同步工具
 
 這是一個基於 **Electron** 的字幕同步工具，可用於與 YouTube 影片同步顯示字幕。適合用於 OBS 直播或錄製。
 
